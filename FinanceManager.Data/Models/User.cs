@@ -9,7 +9,7 @@ namespace FinanceManager.Data.Models
     public class User
     {
         public Guid Id { get; set; }
-        public Guid WalletId { get; set; }
+        public Wallet Wallet { get; set; }
         public string FullName { get; set; }
         public string Username { get; set; }
     }

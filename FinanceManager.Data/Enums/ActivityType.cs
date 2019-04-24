@@ -2,7 +2,7 @@
 {
     public enum ActivityType
     {
-        Income,
-        Outcome
+        Outcome,
+        Income
     }
 }
