@@ -49,5 +49,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FinanceManager.Data\FinanceManager.Data.csproj">
+      <Project>{d4f7361a-a609-44e5-9629-3efa4335f544}</Project>
+      <Name>FinanceManager.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FinanceManager.Service\FinanceManager.Service.csproj">
+      <Project>{ce41549b-ee86-456a-ac77-2447eb243de2}</Project>
+      <Name>FinanceManager.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
