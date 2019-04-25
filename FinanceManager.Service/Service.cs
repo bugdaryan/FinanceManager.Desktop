@@ -191,22 +191,26 @@ namespace FinanceManager.Service
 
         public void PutActivity(Activity activity)
         {
-            throw new NotImplementedException();
+            string query = $@"UPDATE {_databaseName}.{_schemaName}.{_activitiesTableName} SET Date = '{activity.Date}', Desctiption = '{activity.Description}', Value={activity.Value}";
+            ExecuteNonQuery(query);
         }
 
         public void PutCategory(Category category)
         {
-            throw new NotImplementedException();
+            string query = $@"UPDATE {_databaseName}.{_schemaName}.{_categoriesTableName} SET Name = '{category.Name}',ActivityType = '{(int)category.ActivityType}'";
+            ExecuteNonQuery(query)
         }
 
         public void DeleteActivity(Guid id)
         {
-            throw new NotImplementedException();
+            string query = $"DELETE FROM {_databaseName}.{_schemaName}.{_activitiesTableName} WHERE Id = '{id}'";
+            ExecuteNonQuery(query);
         }
 
         public void DeleteCategory(Guid id)
         {
-            throw new NotImplementedException();
+            string query = $"DELETE FROM {_databaseName}.{_schemaName}.{_categoriesTableName} WHERE Id = '{id}'";
+            ExecuteNonQuery(query);
         }
 
         private void ExecuteNonQuery(string query)

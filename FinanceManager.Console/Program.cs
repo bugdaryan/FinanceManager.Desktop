@@ -13,11 +13,9 @@ namespace FinanceManager.Console
         static string[] tableNames = new string[] { "Categories", "Activities" };
         static void Main(string[] args)
         {
-            //SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder("Server = (localdb)\\mssqllocaldb; Trusted_Connection = True; MultipleActiveResultSets = true;");
-            //SeedData(builder);
-            //System.Console.WriteLine("Seeding finished");
-            var now = DateTime.Now;
-            System.Console.WriteLine(now.ToString("yyyy-mm-dd"));
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder("Server = (localdb)\\mssqllocaldb; Trusted_Connection = True; MultipleActiveResultSets = true;");
+            SeedData(builder);
+            System.Console.WriteLine("Seeding finished");
         }
 
         private static void SeedData(SqlConnectionStringBuilder builder)
