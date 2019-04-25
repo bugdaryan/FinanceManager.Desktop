@@ -15,36 +15,16 @@ namespace FinanceManager.UI
         public MainWindow()
         {
             InitializeComponent();
-            //InitChart();
+            ToDatePicker.SelectedDate = DateTime.Now.AddMonths(1);
+            FromDatePicker.SelectedDate = DateTime.Now;
+
+            FromDatePicker.SelectedDateChanged += DatePicker_SelectedDateChanged;
+            ToDatePicker.SelectedDateChanged += DatePicker_SelectedDateChanged;
         }
 
-        private void InitChart()
+        private void DatePicker_SelectedDateChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            if (SeriesCollection != null)
-            {
-                SeriesCollection.Clear();
-            }
-
-            var values = new ChartValues<decimal>();
-            Labels = new List<string>();
-
-            foreach (var item in Helper.Activities)
-            {
-                values.Add(item.Total);
-                Labels.Add(item.Date.ToString("yyyy-mm-dd"));
-            }
-            SeriesCollection = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "Series 1",
-                    Values = values
-                }
-            };
-
-
-
-            DataContext = this;
+            CalculateBtn.IsEnabled = true;
         }
 
         public SeriesCollection SeriesCollection { get; set; }
@@ -54,8 +34,10 @@ namespace FinanceManager.UI
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             CalculateBtn.IsEnabled = false;
+            Helper.GetSummaries(FromDatePicker.SelectedDate.Value, ToDatePicker.SelectedDate.Value);
             RefreshChart();
         }
+
         private void RefreshChart()
         {
             if (SeriesCollection == null)
@@ -71,16 +53,14 @@ namespace FinanceManager.UI
             SeriesCollection.Clear();
             Labels.Clear();
             var lineSeries = new LineSeries();
-            lineSeries.Values = new ChartValues<decimal>();
-            foreach (var item in Helper.Activities)
-            {
-                lineSeries.Values.Add(item.Total);
-                Labels.Add(item.Date.ToString("yyyy-mm-dd"));
-            }
+            (lineSeries.Values, Labels) = Helper.GetChartValues();
             SeriesCollection.Add(lineSeries);
-
-            Labels = Labels.Distinct().ToList();
             DataContext = this;
+        }
+
+        private void NewActivityBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

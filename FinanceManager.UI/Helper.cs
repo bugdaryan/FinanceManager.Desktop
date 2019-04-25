@@ -1,41 +1,43 @@
 ﻿using FinanceManager.Data.Models;
+using FinanceManager.Service;
+using LiveCharts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FinanceManager.UI
 {
     public static class Helper
     {
-        public static IEnumerable<Summary> Activities;
+        public static IEnumerable<Summary> Summaries;
         private static readonly DataMapper _service;
 
         static Helper()
         {
-            _service = new DataMapper();
-            Activities = new List<Summary>
-            {
-               new Summary { Date = DateTime.ParseExact("2019-12-27","yyyy-mm-dd",null), Total = -1930},
-               new Summary { Date = DateTime.ParseExact("2019-12-26","yyyy-mm-dd",null), Total = 417},
-               new Summary { Date = DateTime.ParseExact("2019-12-25","yyyy-mm-dd",null), Total = -548},
-               new Summary { Date = DateTime.ParseExact("2019-12-24","yyyy-mm-dd",null), Total = -1104},
-               new Summary { Date = DateTime.ParseExact("2019-12-23","yyyy-mm-dd",null), Total = -1810},
-               new Summary { Date = DateTime.ParseExact("2019-12-22","yyyy-mm-dd",null), Total = -457},
-               new Summary { Date = DateTime.ParseExact("2019-12-21","yyyy-mm-dd",null), Total = -1498},
-               new Summary { Date = DateTime.ParseExact("2019-12-20","yyyy-mm-dd",null), Total = -641},
-               new Summary { Date = DateTime.ParseExact("2019-12-19","yyyy-mm-dd",null), Total = -56},
-               new Summary { Date = DateTime.ParseExact("2019-12-18","yyyy-mm-dd",null), Total = 283},
-               new Summary { Date = DateTime.ParseExact("2019-12-17","yyyy-mm-dd",null), Total = -217},
-               new Summary { Date = DateTime.ParseExact("2019-12-16","yyyy-mm-dd",null), Total = 31},
-               new Summary { Date = DateTime.ParseExact("2019-12-15","yyyy-mm-dd",null), Total = 185},
-               new Summary { Date = DateTime.ParseExact("2019-12-14","yyyy-mm-dd",null), Total = -153},
-               new Summary { Date = DateTime.ParseExact("2019-12-13","yyyy-mm-dd",null), Total = 119}
-            };
+            string connectionString = @"Server=(localdb)\mssqllocaldb;Trusted_Connection=True;MultipleActiveResultSets=true;";
+            string databaseName = "FinanceManager";
+            string schemaName = "dbo";
 
+            SummaryService summaryService = new SummaryService(connectionString, "Activities", "Categories", schemaName, databaseName);
+            _service = new DataMapper(summaryService);
         }
 
-        public static void GetActivities(DateTime from, DateTime to)
+        public static void GetSummaries(DateTime from, DateTime to)
         {
-            //Activities = _service.GetActivities(from, to);
+            Summaries = _service.GetSummaries(from, to);
+        }
+
+        public static (ChartValues<decimal>, List<string>) GetChartValues()
+        {
+            var values = new ChartValues<decimal>();
+            var labels = new List<string>();
+            foreach (var item in Summaries)
+            {
+                values.Add(item.Total);
+                labels.Add(item.Date.ToShortDateString());
+            }
+
+            return (values, labels);
         }
     }
 }
