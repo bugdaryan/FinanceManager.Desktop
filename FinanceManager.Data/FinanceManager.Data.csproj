@@ -44,6 +44,7 @@
     <Compile Include="Enums\ActivityType.cs" />
     <Compile Include="IActivity.cs" />
     <Compile Include="ICategory.cs" />
+    <Compile Include="ISummary.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Summary.cs" />
