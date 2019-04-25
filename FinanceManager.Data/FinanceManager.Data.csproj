@@ -46,6 +46,7 @@
     <Compile Include="ICategory.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Summary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

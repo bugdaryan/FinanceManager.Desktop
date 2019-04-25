@@ -1,9 +1,9 @@
 ﻿using LiveCharts;
-using LiveCharts.Definitions.Series;
 using LiveCharts.Wpf;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
-using System.Windows.Media;
 
 namespace FinanceManager.UI
 {
@@ -15,50 +15,72 @@ namespace FinanceManager.UI
         public MainWindow()
         {
             InitializeComponent();
+            //InitChart();
+        }
+
+        private void InitChart()
+        {
+            if (SeriesCollection != null)
+            {
+                SeriesCollection.Clear();
+            }
+
+            var values = new ChartValues<decimal>();
+            Labels = new List<string>();
+
+            foreach (var item in Helper.Activities)
+            {
+                values.Add(item.Total);
+                Labels.Add(item.Date.ToString("yyyy-mm-dd"));
+            }
             SeriesCollection = new SeriesCollection
             {
                 new LineSeries
                 {
                     Title = "Series 1",
-                    Values = new ChartValues<double> { 4, 6, 5, 2 ,4 }
-                },
-                new LineSeries
-                {
-                    Title = "Series 2",
-                    Values = new ChartValues<double> { 6, 7, 3, 4 ,6 },
-                    PointGeometry = null
-                },
-                new LineSeries
-                {
-                    Title = "Series 3",
-                    Values = new ChartValues<double> { 4,2,7,2,7 },
-                    PointGeometry = DefaultGeometries.Square,
-                    PointGeometrySize = 15
+                    Values = values
                 }
             };
 
-            Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
-            YFormatter = value => value.ToString("C");
 
-            //modifying the series collection will animate and update the chart
-            SeriesCollection.Add(new LineSeries
-            {
-                Title = "Series 4",
-                Values = new ChartValues<double> { 5, 3, 2, 4 },
-                LineSmoothness = 1, //0: straight lines, 1: really smooth lines
-                PointGeometry = Geometry.Parse("m 25 70.36218 20 -28 -20 22 -8 -6 z"),
-                PointGeometrySize = 50,
-                PointForeground = Brushes.Gray
-            });
-
-            //modifying any series values will also animate and update the chart
-            SeriesCollection[3].Values.Add(5d);
 
             DataContext = this;
         }
 
         public SeriesCollection SeriesCollection { get; set; }
-        public string[] Labels { get; set; }
+        public List<string> Labels { get; set; }
         public Func<double, string> YFormatter { get; set; }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            CalculateBtn.IsEnabled = false;
+            RefreshChart();
+        }
+        private void RefreshChart()
+        {
+            if (SeriesCollection == null)
+            {
+                SeriesCollection = new SeriesCollection();
+            }
+
+            if (Labels == null)
+            {
+                Labels = new List<string>();
+            }
+
+            SeriesCollection.Clear();
+            Labels.Clear();
+            var lineSeries = new LineSeries();
+            lineSeries.Values = new ChartValues<decimal>();
+            foreach (var item in Helper.Activities)
+            {
+                lineSeries.Values.Add(item.Total);
+                Labels.Add(item.Date.ToString("yyyy-mm-dd"));
+            }
+            SeriesCollection.Add(lineSeries);
+
+            Labels = Labels.Distinct().ToList();
+            DataContext = this;
+        }
     }
 }

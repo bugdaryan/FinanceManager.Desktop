@@ -198,7 +198,7 @@ namespace FinanceManager.Service
         public void PutCategory(Category category)
         {
             string query = $@"UPDATE {_databaseName}.{_schemaName}.{_categoriesTableName} SET Name = '{category.Name}',ActivityType = '{(int)category.ActivityType}'";
-            ExecuteNonQuery(query)
+            ExecuteNonQuery(query);
         }
 
         public void DeleteActivity(Guid id)
