@@ -4,6 +4,7 @@ using FinanceManager.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace FinanceManager.Service
 {
@@ -24,24 +25,19 @@ namespace FinanceManager.Service
             _databaseName = databaseName;
         }
 
-        public void DeleteActivity(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteCategory(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Activity> GetActivitiesInRange(DateTime from, DateTime to)
         {
-            throw new NotImplementedException();
+            if (from >= to)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            return GetAllActivities().Where(activity => activity.Date > from && activity.Date < to);
         }
 
         public Activity GetActivity(Guid id)
         {
-            Activity activity=null;  
+            Activity activity = null;
             string query = $"SELECT c.id as [CategoryId],c.ActivityType, c.Name as [CategoryName], a.Id as [ActivityId],a.Value,a.Description ,a.Date,a.Created FROM {_databaseName}.{_schemaName}.{_categoriesTableName} c INNER JOIN {_databaseName}.{_schemaName}.{_activitiesTableName} a ON a.CategoryId = c.Id WHERE a.Id = '{id}'";
             using (var connection = new SqlConnection(_builder.ConnectionString))
             {
@@ -181,12 +177,16 @@ namespace FinanceManager.Service
 
         public void PostActivity(Activity activity)
         {
-            throw new NotImplementedException();
+            string query = $@"INSERT INTO {_databaseName}.{_schemaName}.{_activitiesTableName} (CategoryId, Date, Desctiption,  Value) VALUES 
+                                ('{activity.Category.Id}','{activity.Date.ToString("yyyy-mm-dd")}', '{activity.Description}', {activity.Value});";
+            ExecuteNonQuery(query);
         }
 
         public void PostCategory(Category category)
         {
-            throw new NotImplementedException();
+            string query = $@"INSERT INTO {_databaseName}.{_schemaName}.{_categoriesTableName} (Name, ActivityType) VALUES 
+                                ('{category.Name}', {(int)category.ActivityType});";
+            ExecuteNonQuery(query);
         }
 
         public void PutActivity(Activity activity)
@@ -197,6 +197,34 @@ namespace FinanceManager.Service
         public void PutCategory(Category category)
         {
             throw new NotImplementedException();
+        }
+
+        public void DeleteActivity(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteCategory(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ExecuteNonQuery(string query)
+        {
+            using (var connection = new SqlConnection(_builder.ConnectionString))
+            {
+                var command = new SqlCommand(query, connection);
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    throw;
+                }
+            }
         }
     }
 }

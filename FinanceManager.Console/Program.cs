@@ -13,9 +13,11 @@ namespace FinanceManager.Console
         static string[] tableNames = new string[] { "Categories", "Activities" };
         static void Main(string[] args)
         {
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder("Server = (localdb)\\mssqllocaldb; Trusted_Connection = True; MultipleActiveResultSets = true;");
-            SeedData(builder);
-            System.Console.WriteLine("Seeding finished");
+            //SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder("Server = (localdb)\\mssqllocaldb; Trusted_Connection = True; MultipleActiveResultSets = true;");
+            //SeedData(builder);
+            //System.Console.WriteLine("Seeding finished");
+            var now = DateTime.Now;
+            System.Console.WriteLine(now.ToString("yyyy-mm-dd"));
         }
 
         private static void SeedData(SqlConnectionStringBuilder builder)
@@ -86,7 +88,7 @@ namespace FinanceManager.Console
             {
                 int categoryIndex = rnd.Next(0, categories.Length);
                 Guid categoryGuid = categories[categoryIndex].Id;
-                queryBuilder.Append($" ('{categoryGuid}',{categories[categoryIndex].Name},{rnd.Next(100000, 2000000)},'2019-{rnd.Next(1, 13)}-{rnd.Next(1, 28)}')");
+                queryBuilder.Append($" ('{categoryGuid}',{categories[categoryIndex].Name},{rnd.Next(100000, 2000000)},'201{rnd.Next(4,10)}-{rnd.Next(1, 13)}-{rnd.Next(1, 28)}')");
                 queryBuilder.Append((i == activityCount - 1 ? ";" : ","));
             }
             return queryBuilder.ToString();
@@ -101,7 +103,7 @@ namespace FinanceManager.Console
                       [Name] [nvarchar](20) NOT NULL,
                       [ActivityType] [bit] NOT NULL",
                     @"[Id] [uniqueidentifier] DEFAULT newid() PRIMARY KEY,
-                      [CategoryId] [uniqueidentifier] NOT NULL FOREIGN KEY REFERENCES Categories(Id),
+                      [CategoryId] [uniqueidentifier] NOT NULL FOREIGN KEY REFERENCES Categories(Id) ON DELETE CASCADE ON UPDATE CASCADE,
                       [Description] [nvarchar](50) NULL,
                       [Value] [decimal] NULL,
                       [Created] [datetime2] DEFAULT getdate(),
