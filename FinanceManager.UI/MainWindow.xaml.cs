@@ -15,18 +15,6 @@ namespace FinanceManager.UI
         public MainWindow()
         {
             InitializeComponent();
-
-            this.Hide();
-            LoginWindow loginWindow = new LoginWindow();
-            if (loginWindow.ShowDialog().Value)
-            {
-                this.Show();
-            }
-            else
-            {
-                this.Close();
-            }
-
             SeriesCollection = new SeriesCollection
             {
                 new LineSeries

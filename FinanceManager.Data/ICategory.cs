@@ -9,10 +9,10 @@ namespace FinanceManager.Data
 {
     public interface ICategory
     {
-        IEnumerable<Category> Get();
-        ICategory Get(Guid id);
-        void Post(Category category);
-        void Put(Category category);
-        void Delete(Guid id);
+        IEnumerable<Category> GetAllCategories();
+        Category GetCategory(Guid id);
+        void PostCategory(Category category);
+        void PutCategory(Category category);
+        void DeleteCategory(Guid id);
     }
 }

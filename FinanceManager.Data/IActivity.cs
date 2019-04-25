@@ -9,10 +9,11 @@ namespace FinanceManager.Data
 {
     public interface IActivity
     {
-        IEnumerable<Activity> Get();
-        Activity Get(Guid id);
-        void Post(Activity activity);
-        void Put(Activity activity);
-        void Delete(Guid id);
+        IEnumerable<Activity> GetAllActivities();
+        IEnumerable<Activity> GetActivitiesInRange(DateTime from, DateTime to);
+        Activity GetActivity(Guid id);
+        void PostActivity(Activity activity);
+        void PutActivity(Activity activity);
+        void DeleteActivity(Guid id);
     }
 }
