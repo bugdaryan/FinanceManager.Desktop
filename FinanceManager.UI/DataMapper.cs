@@ -29,5 +29,10 @@ namespace FinanceManager.UI
         {
             return _categoryService.GetCategories(); 
         }
+
+        public void AddCategory(Category category)
+        {
+            _categoryService.Add(category);
+        }
     }
 }

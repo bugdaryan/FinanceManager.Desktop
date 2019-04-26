@@ -38,7 +38,7 @@ namespace FinanceManager.Service
                     {
                         var category = new Category
                         {
-                            ActivityType = ((bool)reader["ActivityType"]?ActivityType.Income:ActivityType.Outcome),
+                            ActivityType = ((bool)reader["ActivityType"] ? ActivityType.Income : ActivityType.Outcome),
                             Id = Guid.Parse(reader["Id"].ToString()),
                             Name = reader["Name"].ToString()
                         };
@@ -51,6 +51,34 @@ namespace FinanceManager.Service
                     throw;
                 }
                 return categories;
+            }
+        }
+
+        public void Add(Category category)
+        {
+            string query = $"INSERT INTO {_databaseName}.{_schemaName}.{_categoriesTableName} (Name, ActivityType) VALUES ('{category.Name}', {(int)category.ActivityType} )";
+            ExecuteNonQuery(query);
+        }
+
+        private void ExecuteNonQuery(string query)
+        {
+            using (var connection = new SqlConnection(_builder.ConnectionString))
+            {
+                var command = new SqlCommand(query, connection);
+
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    command.Dispose();
+                }
             }
         }
     }

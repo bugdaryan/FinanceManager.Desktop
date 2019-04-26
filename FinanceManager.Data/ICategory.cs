@@ -10,5 +10,7 @@ namespace FinanceManager.Data
     public interface ICategory
     {
         IEnumerable<Category> GetCategories();
+
+        void Add(Category category);
     }
 }
