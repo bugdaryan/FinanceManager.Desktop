@@ -14,11 +14,11 @@ namespace FinanceManager.Service
         private readonly string _schemaName;
         private readonly string _databaseName;
 
-        public SummaryService(string connection, string activitiesTableName, string categoriesTableName, string schemaName, string databaseName)
+        public SummaryService(string connection, string databaseName, string schemaName,string[] tableNames)
         {
             _builder = new SqlConnectionStringBuilder(connection);
-            _activitiesTableName = activitiesTableName;
-            _categoriesTableName = categoriesTableName;
+            _activitiesTableName = tableNames[0];
+            _categoriesTableName = tableNames[1];
             _schemaName = schemaName;
             _databaseName = databaseName;
         }
