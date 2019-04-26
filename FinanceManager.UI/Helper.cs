@@ -3,23 +3,35 @@ using FinanceManager.Service;
 using LiveCharts;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace FinanceManager.UI
 {
     public static class Helper
     {
-        public static IEnumerable<Summary> Summaries;
+        public static IEnumerable<Summary> Summaries { get; set; }
+
+        public static IEnumerable<Category> Categories { get; set; }
+        public static IEnumerable<Category> SearchedCategories { get; set; }
+
         private static readonly DataMapper _service;
+
+        private static Dictionary<Border, Guid> _categoryBorderToId;
 
         static Helper()
         {
-            string connectionString = @"Server=(localdb)\mssqllocaldb;Trusted_Connection=True;MultipleActiveResultSets=true;";
             string databaseName = "FinanceManager";
             string schemaName = "dbo";
+            string[] tableNames = { "Activities", "Categories" };
+            SummaryService summaryService = new SummaryService(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, databaseName, schemaName ,tableNames);
+            CategoryService categoryService = new CategoryService(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, databaseName,schemaName, tableNames[1]);
 
-            SummaryService summaryService = new SummaryService(connectionString, "Activities", "Categories", schemaName, databaseName);
-            _service = new DataMapper(summaryService);
+            _service = new DataMapper(summaryService, categoryService);
         }
 
         public static void GetSummaries(DateTime from, DateTime to)
@@ -38,6 +50,58 @@ namespace FinanceManager.UI
             }
 
             return (values, labels);
+        }
+
+        public static void GetSearchedCategories(string searchQuery)
+        {
+            searchQuery = Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower();
+            var queries = searchQuery.Split(' ');
+            SearchedCategories = Categories.Where(category => queries.Any(query => category.Name.ToLower().Contains(query)));
+        }
+
+        public static void GetCategoriesList()
+        {
+            Categories = _service.GetCategories();
+        }
+
+        public static Border GetNewToDoItemBorder(Category category, double width)
+        {
+            if(_categoryBorderToId == null)
+            {
+                _categoryBorderToId = new Dictionary<Border, Guid>();
+            }
+
+            Border border = new Border
+            {
+                BorderThickness = new Thickness(4),
+                BorderBrush = Brushes.Black
+            };
+            var stackPanel = new StackPanel
+            {
+                Width = width * .80,
+                Height =  60,
+                Background = Brushes.ForestGreen
+            };
+            Label labelName = new Label
+            {
+                Content = category.Name,
+                FontSize = 20
+            };
+
+            Label labelType = new Label
+            {
+                Content = category.ActivityType.ToString(),
+                FontSize = 10
+            };
+
+            border.Child = stackPanel;
+
+            stackPanel.Children.Add(labelName);
+            stackPanel.Children.Add(labelType);
+
+            _categoryBorderToId.Add(border, category.Id);
+
+            return border;
         }
     }
 }

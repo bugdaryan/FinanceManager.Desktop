@@ -2,7 +2,6 @@
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 
 namespace FinanceManager.UI
@@ -31,7 +30,7 @@ namespace FinanceManager.UI
         public List<string> Labels { get; set; }
         public Func<double, string> YFormatter { get; set; }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
             CalculateBtn.IsEnabled = false;
             Helper.GetSummaries(FromDatePicker.SelectedDate.Value, ToDatePicker.SelectedDate.Value);
@@ -58,9 +57,22 @@ namespace FinanceManager.UI
             DataContext = this;
         }
 
-        private void NewActivityBtn_Click(object sender, RoutedEventArgs e)
+        private void EditActivitiesBtn_Click(object sender, RoutedEventArgs e)
         {
+            //EditActivitiesWindow editCategoriesWindow = new EditCategoriesWindow();
+            //if(editCategoriesWindow.ShowDialog().Value)
+            //{
+            //    RefreshChart();
+            //}
+        }
 
+        private void EditCategoriesBtn_Click(object sender, RoutedEventArgs e)
+        {
+            EditCategoriesWindow editCategoriesWindow = new EditCategoriesWindow();
+            if(editCategoriesWindow.ShowDialog().Value)
+            {
+                RefreshChart();
+            }
         }
     }
 }

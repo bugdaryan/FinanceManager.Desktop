@@ -12,15 +12,22 @@ namespace FinanceManager.UI
     public class DataMapper
     {
         private readonly ISummary _summaryService;
+        private readonly ICategory _categoryService;
 
-        public DataMapper(ISummary summaryService)
+        public DataMapper(ISummary summaryService, ICategory categoryService)
         {
             _summaryService = summaryService;
+            _categoryService = categoryService;
         }
 
         public IEnumerable<Summary> GetSummaries(DateTime from, DateTime to)
         {
             return _summaryService.GetSummaries(from, to);
+        }
+
+        public IEnumerable<Category> GetCategories()
+        {
+            return _categoryService.GetCategories(); 
         }
     }
 }
