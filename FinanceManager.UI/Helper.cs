@@ -64,7 +64,12 @@ namespace FinanceManager.UI
             Categories = _service.GetCategories();
         }
 
-        public static Border GetNewToDoItemBorder(Category category, double width)
+        public static void AddCategory(Category category)
+        {
+            _service.AddCategory(category);
+        }
+
+        public static Border GetCategoryBorder(Category category, double width)
         {
             if(_categoryBorderToId == null)
             {

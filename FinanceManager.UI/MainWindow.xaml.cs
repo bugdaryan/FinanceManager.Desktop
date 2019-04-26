@@ -71,7 +71,7 @@ namespace FinanceManager.UI
             EditCategoriesWindow editCategoriesWindow = new EditCategoriesWindow();
             if(editCategoriesWindow.ShowDialog().Value)
             {
-                RefreshChart();
+                CalculateBtn.IsEnabled = true;
             }
         }
     }
