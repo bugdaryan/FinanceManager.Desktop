@@ -21,7 +21,7 @@ namespace FinanceManager.UI
 
         private static readonly DataMapper _service;
 
-        private static Dictionary<Border, Guid> _categoryBorderToId;
+        private static Dictionary<Border, Category> _categoryBorderToCategory;
 
         static Helper()
         {
@@ -69,11 +69,16 @@ namespace FinanceManager.UI
             _service.AddCategory(category);
         }
 
+        public static void ModifyCategory(Category category)
+        {
+            _service.ModifyCategory(category);
+        }
+
         public static Border GetCategoryBorder(Category category, double width)
         {
-            if(_categoryBorderToId == null)
+            if(_categoryBorderToCategory == null)
             {
-                _categoryBorderToId = new Dictionary<Border, Guid>();
+                _categoryBorderToCategory = new Dictionary<Border, Category>();
             }
 
             Border border = new Border
@@ -104,9 +109,19 @@ namespace FinanceManager.UI
             stackPanel.Children.Add(labelName);
             stackPanel.Children.Add(labelType);
 
-            _categoryBorderToId.Add(border, category.Id);
+            _categoryBorderToCategory.Add(border, category);
 
             return border;
+        }
+
+        public static Category GetCategoryByBorder(Border border)
+        {
+            if(Categories == null)
+            {
+                GetCategoriesList();
+            }
+
+            return _categoryBorderToCategory[border];
         }
     }
 }

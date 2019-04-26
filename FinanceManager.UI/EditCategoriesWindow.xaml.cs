@@ -58,14 +58,39 @@ namespace FinanceManager.UI
 
         private void ModifyCategoryBtn_Click(object sender, RoutedEventArgs e)
         {
+            var border = (Border)CategoriesListBox.SelectedItem;
+            if (border != null)
+            {
+                var category = Helper.GetCategoryByBorder(border);
+                var modifyCategoryWindow = new ModifyCategoryWindow(category);
+                if (modifyCategoryWindow.ShowDialog().Value)
+                {
+                    Helper.GetCategoriesList();
+                    RefreshList();
+                    result = true;
+                }
 
-            result = true;
+            }
         }
 
         private void RemoveCategoryBtn_Click(object sender, RoutedEventArgs e)
         {
 
             result = true;
+        }
+
+        private void CategoriesListBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+            ModifyCategoryBtn.IsEnabled = true;
+        }
+
+        private void CategoriesListBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!ModifyCategoryBtn.IsMouseOver)
+            {
+                ModifyCategoryBtn.IsEnabled = false;
+            }
         }
     }
 }
