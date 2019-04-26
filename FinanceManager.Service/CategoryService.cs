@@ -66,6 +66,12 @@ namespace FinanceManager.Service
             ExecuteNonQuery(query);
         }
 
+        public void Remove(Guid id)
+        {
+            string query = $"DELETE FROM {_databaseName}.{_schemaName}.{_categoriesTableName} WHERE Id = '{id}'";
+            ExecuteNonQuery(query);
+        }
+
         private void ExecuteNonQuery(string query)
         {
             using (var connection = new SqlConnection(_builder.ConnectionString))

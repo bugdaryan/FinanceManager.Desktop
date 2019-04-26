@@ -14,5 +14,7 @@ namespace FinanceManager.Data
         void Add(Category category);
 
         void Modify(Category category);
+
+        void Remove(Guid id);
     }
 }

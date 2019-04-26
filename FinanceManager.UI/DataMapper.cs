@@ -1,11 +1,7 @@
 ﻿using FinanceManager.Data;
 using FinanceManager.Data.Models;
-using FinanceManager.Service;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceManager.UI
 {
@@ -27,7 +23,7 @@ namespace FinanceManager.UI
 
         public IEnumerable<Category> GetCategories()
         {
-            return _categoryService.GetCategories(); 
+            return _categoryService.GetCategories();
         }
 
         public void AddCategory(Category category)
@@ -38,6 +34,11 @@ namespace FinanceManager.UI
         public void ModifyCategory(Category category)
         {
             _categoryService.Modify(category);
+        }
+
+        public void RemoveCategory(Guid id)
+        {
+            _categoryService.Remove(id);
         }
     }
 }
