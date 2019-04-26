@@ -12,5 +12,7 @@ namespace FinanceManager.Data
         IEnumerable<Category> GetCategories();
 
         void Add(Category category);
+
+        void Modify(Category category);
     }
 }

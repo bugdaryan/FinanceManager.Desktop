@@ -60,6 +60,12 @@ namespace FinanceManager.Service
             ExecuteNonQuery(query);
         }
 
+        public void Modify(Category category)
+        {
+            string query = $"UPDATE {_databaseName}.{_schemaName}.{_categoriesTableName} SET Name = '{category.Name}', ActivityType={(int)category.ActivityType} WHERE Id = '{category.Id}'";
+            ExecuteNonQuery(query);
+        }
+
         private void ExecuteNonQuery(string query)
         {
             using (var connection = new SqlConnection(_builder.ConnectionString))

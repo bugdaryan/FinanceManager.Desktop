@@ -34,5 +34,10 @@ namespace FinanceManager.UI
         {
             _categoryService.Add(category);
         }
+
+        public void ModifyCategory(Category category)
+        {
+            _categoryService.Modify(category);
+        }
     }
 }
