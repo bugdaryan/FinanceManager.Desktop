@@ -114,6 +114,12 @@ namespace FinanceManager.UI
             return border;
         }
 
+        public static void RemoveCategory(Border border)
+        {
+            Guid id = _categoryBorderToCategory[border].Id;
+            _service.RemoveCategory(id);
+        }
+
         public static Category GetCategoryByBorder(Border border)
         {
             if(Categories == null)

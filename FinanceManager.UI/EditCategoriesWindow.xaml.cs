@@ -71,25 +71,45 @@ namespace FinanceManager.UI
                 }
 
             }
+            else
+            {
+                MessageBox.Show("Please select category do modify");
+            }
         }
 
         private void RemoveCategoryBtn_Click(object sender, RoutedEventArgs e)
         {
+            var border = (Border)CategoriesListBox.SelectedItem;
+            if (border != null)
+            {
+                var dlgRes = MessageBox.Show("Are you sure you want to remove {} category permanently?", "Be careful", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (dlgRes == MessageBoxResult.Yes)
+                {
 
-            result = true;
+                    Helper.RemoveCategory(border);
+                    Helper.GetCategoriesList();
+                    RefreshList();
+                    result = true;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select category do remove");
+            }
         }
 
         private void CategoriesListBox_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            RemoveCategoryBtn.IsEnabled = true;
             ModifyCategoryBtn.IsEnabled = true;
         }
 
         private void CategoriesListBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (!ModifyCategoryBtn.IsMouseOver)
+            if (!ModifyCategoryBtn.IsMouseOver && !RemoveCategoryBtn.IsMouseOver)
             {
                 ModifyCategoryBtn.IsEnabled = false;
+                RemoveCategoryBtn.IsEnabled = false;
             }
         }
     }
