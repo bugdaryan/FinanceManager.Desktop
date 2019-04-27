@@ -82,11 +82,9 @@ namespace FinanceManager.UI
             var border = (Border)ActivitiesListBox.SelectedItem;
             if (border != null)
             {
-                var categoryName = Helper.GetActivityByBorder(border).Name;
-                var dlgRes = MessageBox.Show($"Are you sure you want to remove {categoryName} category permanently?", "Be careful", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var dlgRes = MessageBox.Show($"Are you sure you want to remove activity permanently?", "Be careful", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (dlgRes == MessageBoxResult.Yes)
                 {
-
                     Helper.RemoveActivity(border);
                     Helper.GetActivitiesList();
                     RefreshList();
@@ -95,7 +93,7 @@ namespace FinanceManager.UI
             }
             else
             {
-                MessageBox.Show("Please select category do remove");
+                MessageBox.Show("Please select activity to remove");
             }
         }
 
