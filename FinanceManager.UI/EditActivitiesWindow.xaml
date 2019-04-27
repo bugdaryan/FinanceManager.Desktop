@@ -1,0 +1,17 @@
+﻿<Window x:Class="FinanceManager.UI.EditActivitiesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FinanceManager.UI"
+        mc:Ignorable="d"
+        Title="Edit Activities" Height="473.077" Width="446.746">
+    <Grid>
+        <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" Margin="21,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" TextChanged="SearchBox_TextChanged"/>
+        <Label Content="Search" HorizontalAlignment="Left" Margin="21,6,0,0" VerticalAlignment="Top" Width="91"/>
+        <Button x:Name="NewActivityBtn" IsDefault="True" Content="New activity" HorizontalAlignment="Left" Margin="293,75,0,0" VerticalAlignment="Top" Width="120" Height="37" FontSize="18" Click="NewActivityBtn_Click"/>
+        <Button x:Name="ModifyActivityBtn" IsEnabled="False" Content="Modify activity" HorizontalAlignment="Left" Margin="293,117,0,0" VerticalAlignment="Top" Width="120" Height="37" FontSize="14" Click="ModifyActivityBtn_Click"/>
+        <Button x:Name="RemoveActivityBtn" IsEnabled="False" Content="Remove activity" HorizontalAlignment="Left" Margin="293,159,0,0" VerticalAlignment="Top" Width="120" Height="37" FontSize="14" Click="RemoveActivityBtn_Click"/>
+        <ListBox x:Name="ActivitiesListBox" HorizontalAlignment="Left" Height="346" Margin="21,73,0,0" VerticalAlignment="Top" Width="256" LostFocus="ActivitiesListBox_LostFocus" GotFocus="ActivitiesListBox_GotFocus"/>
+    </Grid>
+</Window>

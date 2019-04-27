@@ -62,6 +62,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ActivityWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditActivitiesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditCategoriesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -70,11 +78,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="ActivityWindow.xaml.cs">
+      <DependentUpon>ActivityWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DataMapper.cs" />
+    <Compile Include="EditActivitiesWindow.xaml.cs">
+      <DependentUpon>EditActivitiesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditCategoriesWindow.xaml.cs">
       <DependentUpon>EditCategoriesWindow.xaml</DependentUpon>
     </Compile>
