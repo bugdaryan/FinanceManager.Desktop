@@ -79,6 +79,21 @@ namespace FinanceManager.Console
 
         private static string GetActivityQuery(Category[] categories, Random rnd)
         {
+            int[] prices = new int[]
+            {
+                400000,
+                5000000,
+                1000000,
+                300000,
+                100000,
+                70000,
+                100000,
+                300000,
+                200000,
+                500000,
+                10000
+            };
+
             StringBuilder queryBuilder = new StringBuilder();
             int activityCount = 1000;
             queryBuilder.Append($"INSERT INTO {databaseName}.{schemaName}.Activities (CategoryId,  Description, Value, Date) VALUES ");
@@ -86,7 +101,7 @@ namespace FinanceManager.Console
             {
                 int categoryIndex = rnd.Next(0, categories.Length);
                 Guid categoryGuid = categories[categoryIndex].Id;
-                queryBuilder.Append($" ('{categoryGuid}',{categories[categoryIndex].Name},{rnd.Next(100000, 2000000)},'201{rnd.Next(4,10)}-{rnd.Next(1, 13)}-{rnd.Next(1, 28)}')");
+                queryBuilder.Append($" ('{categoryGuid}',{categories[categoryIndex].Name},{prices[categoryIndex]},'201{rnd.Next(4,10)}-{rnd.Next(1, 5)}-{rnd.Next(1, 28)}')");
                 queryBuilder.Append((i == activityCount - 1 ? ";" : ","));
             }
             return queryBuilder.ToString();

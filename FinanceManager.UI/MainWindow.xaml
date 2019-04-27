@@ -25,5 +25,9 @@
         </Grid>
         <Button x:Name="EditCategoriesBtn" Content="Edit Categories" HorizontalAlignment="Left" Margin="658,348,0,0" VerticalAlignment="Top" Width="113" Click="EditCategoriesBtn_Click"/>
         <Button x:Name="EditActivitiesBtn" Content="Edit Activities" HorizontalAlignment="Left" Margin="658,373,0,0" VerticalAlignment="Top" Width="113" Click="EditActivitiesBtn_Click"/>
+        <ComboBox x:Name="VisualiseType" HorizontalAlignment="Left" Margin="478,10,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="VisualiseType_SelectionChanged">
+            <ComboBoxItem Content="Overall"/>
+            <ComboBoxItem Content="Income / Outcome"/>
+        </ComboBox>
     </Grid>
 </Window>

@@ -14,8 +14,8 @@ namespace FinanceManager.UI
         public MainWindow()
         {
             InitializeComponent();
-            ToDatePicker.SelectedDate = DateTime.Now.AddMonths(1);
-            FromDatePicker.SelectedDate = DateTime.Now;
+            ToDatePicker.SelectedDate = DateTime.Now;
+            FromDatePicker.SelectedDate = DateTime.Now.AddMonths(-1);
 
             FromDatePicker.SelectedDateChanged += DatePicker_SelectedDateChanged;
             ToDatePicker.SelectedDateChanged += DatePicker_SelectedDateChanged;
@@ -73,6 +73,11 @@ namespace FinanceManager.UI
             {
                 CalculateBtn.IsEnabled = true;
             }
+        }
+
+        private void VisualiseType_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
