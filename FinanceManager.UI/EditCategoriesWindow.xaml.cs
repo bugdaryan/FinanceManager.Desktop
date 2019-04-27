@@ -47,7 +47,7 @@ namespace FinanceManager.UI
 
         private void NewCategoryBtn_Click(object sender, RoutedEventArgs e)
         {
-            var newCategoryWindow = new NewCategoryWindow();
+            var newCategoryWindow = new CategoryWindow();
             if (newCategoryWindow.ShowDialog().Value)
             {
                 Helper.GetCategoriesList();
@@ -62,7 +62,7 @@ namespace FinanceManager.UI
             if (border != null)
             {
                 var category = Helper.GetCategoryByBorder(border);
-                var modifyCategoryWindow = new ModifyCategoryWindow(category);
+                var modifyCategoryWindow = new CategoryWindow(category);
                 if (modifyCategoryWindow.ShowDialog().Value)
                 {
                     Helper.GetCategoriesList();
@@ -82,7 +82,8 @@ namespace FinanceManager.UI
             var border = (Border)CategoriesListBox.SelectedItem;
             if (border != null)
             {
-                var dlgRes = MessageBox.Show("Are you sure you want to remove {} category permanently?", "Be careful", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var categoryName = Helper.GetCategoryByBorder(border).Name;
+                var dlgRes = MessageBox.Show($"Are you sure you want to remove {categoryName} category permanently?", "Be careful", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (dlgRes == MessageBoxResult.Yes)
                 {
 

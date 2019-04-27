@@ -9,25 +9,14 @@ namespace FinanceManager.UI
     /// <summary>
     /// Interaction logic for ModifyCategoryWindow.xaml
     /// </summary>
-    public partial class ModifyCategoryWindow : Window
+    public partial class CategoryWindow : Window
     {
         Guid categoryId;
-        public ModifyCategoryWindow(Category category)
+        bool isModify = false;
+        public CategoryWindow(Category category = null)
         {
             InitializeComponent();
             var activityTypes = typeof(ActivityType).GetEnumValues();
-            int index = 0;
-
-            categoryId = category.Id;
-
-            foreach (var activityType in activityTypes)
-            {
-                if ((int)activityType == (int)category.ActivityType)
-                {
-                    break;
-                }
-                index++;
-            }
 
             foreach (var activityType in activityTypes)
             {
@@ -37,9 +26,29 @@ namespace FinanceManager.UI
                 });
             }
 
-            ActivityTypeComboBox.SelectedIndex = index;
+            HeaderLabel.Content = "New category";
+            ActivityTypeComboBox.SelectedIndex = 0;
 
-            NameTextBox.Text = category.Name;
+            if (category != null)
+            {
+                isModify = true;
+                int index = 0;
+                categoryId = category.Id;
+
+                foreach (var activityType in activityTypes)
+                {
+                    if ((int)activityType == (int)category.ActivityType)
+                    {
+                        break;
+                    }
+                    index++;
+                }
+                ActivityTypeComboBox.SelectedIndex = index;
+                NameTextBox.Text = category.Name;
+                HeaderLabel.Content = "Modify category";
+            }
+
+
         }
 
         private void NameTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -53,12 +62,18 @@ namespace FinanceManager.UI
             {
                 var category = new Category
                 {
-                    Id = categoryId,
+                    Id = isModify ? categoryId : Guid.Empty,
                     Name = NameTextBox.Text,
-                    ActivityType = (ActivityTypeComboBox.SelectedValue.ToString() == "Income" ? Data.Enums.ActivityType.Income : Data.Enums.ActivityType.Outcome)
+                    ActivityType = (((ComboBoxItem)ActivityTypeComboBox.SelectedItem).Content.ToString() == "Income" ? Data.Enums.ActivityType.Income : Data.Enums.ActivityType.Outcome)
                 };
-
-                Helper.ModifyCategory(category);
+                if (isModify)
+                {
+                    Helper.ModifyCategory(category);
+                }
+                else
+                {
+                    Helper.AddCategory(category);
+                }
                 DialogResult = true;
             }
             else
