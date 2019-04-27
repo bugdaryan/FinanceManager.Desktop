@@ -59,17 +59,17 @@ namespace FinanceManager.UI
 
         private void EditActivitiesBtn_Click(object sender, RoutedEventArgs e)
         {
-            //EditActivitiesWindow editCategoriesWindow = new EditCategoriesWindow();
-            //if(editCategoriesWindow.ShowDialog().Value)
-            //{
-            //    RefreshChart();
-            //}
+            EditActivitiesWindow editCategoriesWindow = new EditActivitiesWindow();
+            if (editCategoriesWindow.ShowDialog().Value)
+            {
+                CalculateBtn.IsEnabled = true;
+            }
         }
 
         private void EditCategoriesBtn_Click(object sender, RoutedEventArgs e)
         {
             EditCategoriesWindow editCategoriesWindow = new EditCategoriesWindow();
-            if(editCategoriesWindow.ShowDialog().Value)
+            if (editCategoriesWindow.ShowDialog().Value)
             {
                 CalculateBtn.IsEnabled = true;
             }

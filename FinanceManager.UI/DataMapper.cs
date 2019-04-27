@@ -9,11 +9,13 @@ namespace FinanceManager.UI
     {
         private readonly ISummary _summaryService;
         private readonly ICategory _categoryService;
+        private readonly IActivity _activityService;
 
-        public DataMapper(ISummary summaryService, ICategory categoryService)
+        public DataMapper(ISummary summaryService, ICategory categoryService, IActivity activityService)
         {
             _summaryService = summaryService;
             _categoryService = categoryService;
+            _activityService = activityService;
         }
 
         public IEnumerable<Summary> GetSummaries(DateTime from, DateTime to)
@@ -39,6 +41,16 @@ namespace FinanceManager.UI
         public void RemoveCategory(Guid id)
         {
             _categoryService.Remove(id);
+        }
+
+        public IEnumerable<Activity> GetActivities()
+        {
+            return _activityService.GetActivities();
+        }
+
+        public void RemoveActivity(Guid id)
+        {
+            _activityService.Remove(id);
         }
     }
 }

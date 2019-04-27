@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FinanceManager.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace FinanceManager.UI
     /// </summary>
     public partial class ActivityWindow : Window
     {
-        public ActivityWindow()
+        public ActivityWindow(Activity activity = null)
         {
             InitializeComponent();
         }

@@ -34,8 +34,9 @@ namespace FinanceManager.UI
             string[] tableNames = { "Activities", "Categories" };
             SummaryService summaryService = new SummaryService(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, databaseName, schemaName, tableNames);
             CategoryService categoryService = new CategoryService(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, databaseName, schemaName, tableNames[1]);
+            ActivityService activityService = new ActivityService(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, databaseName, schemaName, tableNames);
 
-            _service = new DataMapper(summaryService, categoryService);
+            _service = new DataMapper(summaryService, categoryService, activityService);
         }
 
 
@@ -145,8 +146,8 @@ namespace FinanceManager.UI
             var stackPanel = new StackPanel
             {
                 Width = width * .80,
-                Height = 60,
-                Background = Brushes.ForestGreen
+                Height = 90,
+                Background = Brushes.CadetBlue
             };
             Label labelValue = new Label
             {
@@ -160,10 +161,17 @@ namespace FinanceManager.UI
                 FontSize = 10
             };
 
+            Label labelDate = new Label
+            {
+                Content = activity.Date.ToString("dd/MM/yyyy"),
+                FontSize = 12
+            };
+
             Label labelCategory = new Label
             {
                 Content = activity.Category.ActivityType.ToString(),
-                FontSize = 10
+                FontSize = 10,
+                HorizontalAlignment = HorizontalAlignment.Right
             };
 
             var grid = new Grid();
@@ -174,6 +182,7 @@ namespace FinanceManager.UI
             border.Child = stackPanel;
 
             stackPanel.Children.Add(labelValue);
+            stackPanel.Children.Add(labelDate);
             stackPanel.Children.Add(grid);
 
             _activityBorderToActivity.Add(border, activity);
