@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace FinanceManager.UI
@@ -47,34 +48,33 @@ namespace FinanceManager.UI
 
         private void NewActivityBtn_Click(object sender, RoutedEventArgs e)
         {
-            var newActivityWindow = new CategoryWindow();
-            if (newActivityWindow.ShowDialog().Value)
-            {
-                Helper.GetActivitiesList();
-                RefreshList();
-                result = true;
-            }
+            //var newActivityWindow = new CategoryWindow();
+            //if (newActivityWindow.ShowDialog().Value)
+            //{
+            //    Helper.GetActivitiesList();
+            //    RefreshList();
+            //    result = true;
+            //}
         }
 
         private void ModifyActivityBtn_Click(object sender, RoutedEventArgs e)
         {
-            var border = (Border)ActivitiesListBox.SelectedItem;
-            if (border != null)
-            {
-                var activity = Helper.GetActivityByBorder(border);
-                var modifyActivityWindow = new ActivityWindow(activity);
-                if (modifyActivityWindow.ShowDialog().Value)
-                {
-                    Helper.GetActivitiesList();
-                    RefreshList();
-                    result = true;
-                }
-
-            }
-            else
-            {
-                MessageBox.Show("Please select category do modify");
-            }
+            //var border = (Border)ActivitiesListBox.SelectedItem;
+            //if (border != null)
+            //{
+            //    var activity = Helper.GetActivityByBorder(border);
+            //    var modifyActivityWindow = new ActivityWindow(activity);
+            //    if (modifyActivityWindow.ShowDialog().Value)
+            //    {
+            //        Helper.GetActivitiesList();
+            //        RefreshList();
+            //        result = true;
+            //    }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Please select category do modify");
+            //}
         }
 
         private void RemoveActivityBtn_Click(object sender, RoutedEventArgs e)
@@ -110,6 +110,56 @@ namespace FinanceManager.UI
                 ModifyActivityBtn.IsEnabled = false;
                 RemoveActivityBtn.IsEnabled = false;
             }
+        }
+
+        private void FromDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SetDatePickerAndButton(FromDatePicker, ToDatePicker.SelectedDate, null,ResetFromDateBtn);
+        }
+
+        private void ToDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SetDatePickerAndButton(ToDatePicker,  DateTime.Now, FromDatePicker.SelectedDate ,ResetToDateBtn);
+        }
+
+        private void ResetFromDateBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ResetDatePickerAndButton(FromDatePicker, (Button)sender);
+        }
+
+        private void ResetToDateBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ResetDatePickerAndButton(ToDatePicker, (Button)sender);
+        }
+        private void ResetDatePickerAndButton(DatePicker datePicker, Button button)
+        {
+            datePicker.SelectedDate = null;
+            button.Visibility = Visibility.Collapsed;
+        }
+
+        private void SetDatePickerAndButton(DatePicker datePicker, DateTime? maxDate, DateTime? minDate, Button button)
+        {
+            if (!maxDate.HasValue)
+            {
+                maxDate = DateTime.Now;
+            }
+            if (!minDate.HasValue)
+            {
+                minDate = FromDatePicker.SelectedDate ?? DateTime.MinValue;
+            }
+            if (datePicker.SelectedDate.HasValue)
+            {
+                if (datePicker.SelectedDate.Value > maxDate)
+                {
+                    datePicker.SelectedDate = maxDate;
+                }
+                else if(datePicker.SelectedDate.Value < minDate)
+                {
+                    datePicker.SelectedDate = minDate;
+                }
+            }
+
+            button.Visibility = Visibility.Visible;
         }
     }
 }
