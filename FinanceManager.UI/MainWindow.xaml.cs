@@ -3,6 +3,7 @@ using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace FinanceManager.UI
 {
@@ -17,13 +18,6 @@ namespace FinanceManager.UI
             ToDatePicker.SelectedDate = DateTime.Now;
             FromDatePicker.SelectedDate = DateTime.Now.AddMonths(-1);
 
-            FromDatePicker.SelectedDateChanged += DatePicker_SelectedDateChanged;
-            ToDatePicker.SelectedDateChanged += DatePicker_SelectedDateChanged;
-        }
-
-        private void DatePicker_SelectedDateChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            CalculateBtn.IsEnabled = true;
         }
 
         public SeriesCollection SeriesCollection { get; set; }
@@ -75,9 +69,45 @@ namespace FinanceManager.UI
             }
         }
 
-        private void VisualiseType_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void VisualiseType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
+
+        private void FromDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SetDatePickerAndButton(FromDatePicker, ToDatePicker.SelectedDate, null, CalculateBtn);
+        }
+
+        private void ToDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SetDatePickerAndButton(ToDatePicker, DateTime.Now, FromDatePicker.SelectedDate, CalculateBtn);
+        }
+
+        private void SetDatePickerAndButton(DatePicker datePicker, DateTime? maxDate, DateTime? minDate, Button button)
+        {
+            if (!maxDate.HasValue)
+            {
+                maxDate = DateTime.Now;
+            }
+            if (!minDate.HasValue)
+            {
+                minDate = FromDatePicker.SelectedDate ?? DateTime.MinValue;
+            }
+            if (datePicker.SelectedDate.HasValue)
+            {
+                if (datePicker.SelectedDate.Value > maxDate)
+                {
+                    datePicker.SelectedDate = maxDate;
+                }
+                else if (datePicker.SelectedDate.Value < minDate)
+                {
+                    datePicker.SelectedDate = minDate;
+                }
+            }
+
+            button.IsEnabled = true;
+        }
+
     }
 }

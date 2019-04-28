@@ -17,7 +17,7 @@
             </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
         <Grid Margin="555,10,10,260">
-            <DatePicker x:Name="FromDatePicker"  HorizontalAlignment="Left" Margin="84,32,0,0" VerticalAlignment="Top" SelectedDateFormat="Short">
+            <DatePicker x:Name="FromDatePicker"  HorizontalAlignment="Left" Margin="84,32,0,0" VerticalAlignment="Top" SelectedDateFormat="Short" SelectedDateChanged="FromDatePicker_SelectedDateChanged">
                 <DatePicker.Resources>
                     <Style TargetType="{x:Type DatePickerTextBox}">
                         <Setter Property="Control.Template">
@@ -30,7 +30,7 @@
                     </Style>
                 </DatePicker.Resources>
             </DatePicker>
-            <DatePicker x:Name="ToDatePicker"  HorizontalAlignment="Left" Margin="84,65,0,0" VerticalAlignment="Top">
+            <DatePicker x:Name="ToDatePicker"  HorizontalAlignment="Left" Margin="84,65,0,0" VerticalAlignment="Top" SelectedDateChanged="ToDatePicker_SelectedDateChanged">
                 <DatePicker.Resources>
                     <Style TargetType="{x:Type DatePickerTextBox}">
                         <Setter Property="Control.Template">
