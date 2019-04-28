@@ -21,6 +21,7 @@ namespace FinanceManager.UI
 
         public static IEnumerable<Activity> Activities { get; set; }
         public static IEnumerable<Activity> SearchedActivities { get; set; }
+        public static IEnumerable<Activity> ActivitiesInRange { get; set; }
 
         private static readonly DataMapper _service;
 
@@ -79,6 +80,14 @@ namespace FinanceManager.UI
         public static void GetActivitiesList()
         {
             Activities = _service.GetActivities();
+        }
+
+        public static void GetActivitiesInRange(DateTime? from, DateTime? to)
+        {
+            if(from.HasValue && to.HasValue && Activities != null)
+            {
+                ActivitiesInRange = Activities.Where(activity => activity.Date >= (from??DateTime.MinValue) && activity.Date <= (to??DateTime.Now));
+            }
         }
 
         public static void AddCategory(Category category)

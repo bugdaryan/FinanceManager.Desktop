@@ -11,6 +11,7 @@ namespace FinanceManager.UI
     {
         bool isSearch = false;
         bool result = false;
+        bool searchInRange = false;
         public EditActivitiesWindow()
         {
             InitializeComponent();
@@ -36,6 +37,8 @@ namespace FinanceManager.UI
         private void RefreshList()
         {
             var list = isSearch ? Helper.SearchedActivities : Helper.Activities;
+            if (searchInRange)
+                list = Helper.ActivitiesInRange;
             if (list != null)
             {
                 ActivitiesListBox.Items.Clear();
@@ -135,6 +138,11 @@ namespace FinanceManager.UI
         {
             datePicker.SelectedDate = null;
             button.Visibility = Visibility.Collapsed;
+
+            if(!ResetFromDateBtn.IsVisible && !ResetToDateBtn.IsVisible)
+            {
+                searchInRange = false;
+            }
         }
 
         private void SetDatePickerAndButton(DatePicker datePicker, DateTime? maxDate, DateTime? minDate, Button button)
@@ -159,6 +167,9 @@ namespace FinanceManager.UI
                 }
             }
 
+            Helper.GetActivitiesInRange(FromDatePicker.SelectedDate, ToDatePicker.SelectedDate);
+
+            searchInRange = true;
             button.Visibility = Visibility.Visible;
         }
     }
